@@ -1,0 +1,54 @@
+CREATE TABLE users
+(
+  `id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `password` varchar(60),
+  `email` varchar(60) UNIQUE NOT NULL,
+  `username` varchar(60) UNIQUE NOT NULL,
+  `user_type` enum('normal','admin') DEFAULT 'normal',
+  `soft_deleted` CHAR(0) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE products
+(
+  `id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `title` varchar(60),
+  `price` float DEFAULT 0,
+  `sale_price` float DEFAULT 0,
+  `soft_deleted` CHAR(0) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE product_swipes
+(
+  `id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `user_id` int(12) DEFAULT 0,
+  `product_id` int(12) DEFAULT 0,
+  `swipe` enum('grab','discard') DEFAULT 'grab',
+  `soft_deleted` CHAR(0) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE INDEX user_id ON product_swipes (`user_id`);
+CREATE INDEX product_id ON product_swipes (`product_id`);
+CREATE INDEX swipe ON product_swipes (`swipe`);
+
+CREATE TABLE product_images
+(
+  `id` int(12) UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `product_id` int(12) DEFAULT 0,
+  `url` varchar(250),
+  `main` tinyint(1) DEFAULT 0,
+  `soft_deleted` CHAR(0) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE INDEX product_id ON product_images (`product_id`);
